@@ -1,0 +1,9 @@
+openai>=1.66.0
+tqdm
+Pillow
+browsergym>=0.13.1
+playwright==1.44.0
+orjson
+# google-generativeai
+# browsergym # for loading pkl.gz step files of trajectories
+# langchain_core # for loading pkl.gz step files of trajectories
