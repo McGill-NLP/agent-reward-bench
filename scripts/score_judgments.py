@@ -18,7 +18,9 @@ from agent_reward_bench.judge import (
 from agent_reward_bench.judge.utils import (
     is_unsure,
     dictify,
-    rename,
+    rename_records,
+    get_renames,
+    get_judges,
     save_as_csv,
     flatten_dict_to_records,
     normalize_task_id,
@@ -51,8 +53,6 @@ def create_annotator_pairs(combined_records):
     }
 
     return pairs
-
-
 
 
 def combine_annotations_into_records(
@@ -390,25 +390,10 @@ annotation_base_dir = args.annotation_base_dir
 judgments_base_dir = args.judgments_base_dir
 results_save_dir = args.results_save_dir
 
-judges = [
-    "functional",
-    "aer",
-    "aerv",
-    "nnetnav",
-    "claude-3.7-sonnet-noscreen",
-    "claude-3.7-sonnet-noaxtree",
-    "gpt-4o-mini",
-    "gpt-4o-mini-noaxtree",
-    "gpt-4o-mini-noscreen",
-    "gpt-4o-mini-noscreen-noaxtree",
-    "gpt-4o-noaxtree",
-    "gpt-4o-noscreen",
-    "qwen-2.5-vl-noaxtree",
-    "qwen-2.5-vl-noscreen",
-    "llama-3.3-70b-noscreen",
-]
+judges = get_judges()
 
-with open("trajectories/annotations.csv") as f:
+arb_path = importlib.resources.files("agent_reward_bench")
+with open(arb_path / "data" / "annotations.csv") as f:
     reader = csv.DictReader(f)
     annotations = list(reader)
 
@@ -474,15 +459,16 @@ for judge in judges:
     print(f"Added {len(metrics_recs)} metrics records")
     print(f"Added {len(success_rates_recs)} success rate records")
 
+# calculate the agreement rate
 annotator_pairs = create_annotator_pairs(combined_records)
-y_primary = arbmetrics.get_annotator_scores(annotator_pairs, "primary")
-y_secondary = arbmetrics.get_annotator_scores(annotator_pairs, "secondary")
-agreement_rate = calculate_agreement_rate(y_primary, y_secondary)
+agreement_rate = calculate_agreement_rate(
+    y_prim=arbmetrics.get_annotator_scores(annotator_pairs, "primary"), 
+    y_sec=arbmetrics.get_annotator_scores(annotator_pairs, "secondary")
+)
 
 # save as json
 results_save_dir = Path(results_save_dir)
 results_save_dir.mkdir(parents=True, exist_ok=True)
-
 with open(results_save_dir / "results.json", "w") as f:
     json.dump(full_results, f, indent=2)
 
@@ -490,59 +476,12 @@ with open(results_save_dir / "results.json", "w") as f:
 with open(results_save_dir / "agreement_rate.json", "w") as f:
     json.dump(agreement_rate, f, indent=2)
 
-
-agent_renaming = {
-    "GenericAgent-anthropic_claude-3.7-sonnet": "Claude 3.7 Sonnet",
-    "GenericAgent-gpt-4o-2024-11-20": "GPT-4o",
-    "GenericAgent-meta-llama_Llama-3.3-70B-Instruct": "Llama 3.3",
-    "GenericAgent-Qwen_Qwen2.5-VL-72B-Instruct": "Qwen2.5-VL",
-    "all": "All",
-}
-
-rename(full_metrics_recs, "agent", agent_renaming)
-rename(full_success_rates_recs, "agent", agent_renaming)
-rename(
-    full_metrics_recs,
-    "category",
-    {
-        "trajectory_success": "Success",
-        "trajectory_side_effect": "Side Effect",
-        "trajectory_optimality": "Optimality",
-        "trajectory_looping": "Repetition",
-    },
-)
-rename(
-    full_metrics_recs,
-    "benchmark",
-    {
-        "all": "Overall",
-        "assistantbench": "AssistantBench",
-        "webarena": "WebArena",
-        "visualwebarena": "VisualWebArena",
-        "workarena": "WorkArena",
-        "workarena++": "WorkArena++",
-    },
-)
-rename(
-    full_metrics_recs,
-    "judge",
-    {
-        "aer": "AER-C",
-        "aerv": "AER-V",
-        "nnetnav": "NNetNav",
-        "claude-3.7-sonnet-noscreen": "Claude 3.7 Sonnet (Axtree)",
-        "claude-3.7-sonnet-noaxtree": "Claude 3.7 Sonnet (Screen)",
-        "gpt-4o-mini": "GPT-4o Mini (Both)",
-        "gpt-4o-mini-noaxtree": "GPT-4o Mini (Screen)",
-        "gpt-4o-mini-noscreen": "GPT-4o Mini (Axtree)",
-        "gpt-4o-mini-noscreen-noaxtree": "GPT-4o Mini (Neither)",
-        "gpt-4o-noaxtree": "GPT-4o (Screen)",
-        "gpt-4o-noscreen": "GPT-4o (Axtree)",
-        "qwen-2.5-vl-noaxtree": "Qwen2.5-VL (Screen)",
-        "qwen-2.5-vl-noscreen": "Qwen2.5-VL (Axtree)",
-        "llama-3.3-70b-noscreen": "Llama 3.3",
-    },
-)
+renames = get_renames()
+rename_records(full_metrics_recs, "agent", renames['agents'])
+rename_records(full_success_rates_recs, "agent", renames['agents'])
+rename_records(full_metrics_recs, "category", renames['labels'])
+rename_records(full_metrics_recs, "benchmark", renames['benchmarks'])
+rename_records(full_metrics_recs, "judge", renames['judges'])
 
 save_as_csv(full_metrics_recs, results_save_dir / f"metrics_{split}.csv")
 save_as_csv(full_success_rates_recs, results_save_dir / f"success_rates_{split}.csv")

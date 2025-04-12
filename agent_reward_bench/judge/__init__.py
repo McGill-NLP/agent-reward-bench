@@ -3,7 +3,6 @@ import json
 from pathlib import Path
 
 from . import defaults, utils
-from .utils import image_to_base64
 
 
 def format_content_for_image(b64_url: str) -> list:
@@ -182,7 +181,7 @@ def create_chat_messages_from_trajectory(
 
     if use_screenshot:
         img_msg_content = format_content_for_image(
-            image_to_base64(traj_dir.joinpath(last_step["screenshot_path"]))
+            utils.image_to_base64(traj_dir.joinpath(last_step["screenshot_path"]))
         )
     else:
         img_msg_content = []

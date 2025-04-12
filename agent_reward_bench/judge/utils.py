@@ -15,7 +15,7 @@ def dictify(obj):
     return json.loads(json.dumps(obj))
 
 
-def rename(records, key, mapping):
+def rename_records(records, key, mapping):
     for rec in records:
         if rec[key] in mapping:
             rec[key] = mapping[rec[key]]
@@ -219,3 +219,74 @@ def is_valid_judgment(judgment):
     if len(judgment["response"]["choices"]) == 0:
         return False
     return True
+
+
+def get_renames():
+
+    renames_agents = {
+        "GenericAgent-anthropic_claude-3.7-sonnet": "Claude 3.7 Sonnet",
+        "GenericAgent-gpt-4o-2024-11-20": "GPT-4o",
+        "GenericAgent-meta-llama_Llama-3.3-70B-Instruct": "Llama 3.3",
+        "GenericAgent-Qwen_Qwen2.5-VL-72B-Instruct": "Qwen2.5-VL",
+        "all": "All",
+    }
+    renames_benchmarks = {
+        "all": "Overall",
+        "assistantbench": "AssistantBench",
+        "webarena": "WebArena",
+        "visualwebarena": "VisualWebArena",
+        "workarena": "WorkArena",
+        "workarena++": "WorkArena++",
+    }
+
+    renames_judges = {
+        "aer": "AER-C",
+        "aerv": "AER-V",
+        "nnetnav": "NNetNav",
+        "claude-3.7-sonnet-noscreen": "Claude 3.7 Sonnet (Axtree)",
+        "claude-3.7-sonnet-noaxtree": "Claude 3.7 Sonnet (Screen)",
+        "gpt-4o-mini": "GPT-4o Mini (Both)",
+        "gpt-4o-mini-noaxtree": "GPT-4o Mini (Screen)",
+        "gpt-4o-mini-noscreen": "GPT-4o Mini (Axtree)",
+        "gpt-4o-mini-noscreen-noaxtree": "GPT-4o Mini (Neither)",
+        "gpt-4o-noaxtree": "GPT-4o (Screen)",
+        "gpt-4o-noscreen": "GPT-4o (Axtree)",
+        "qwen-2.5-vl-noaxtree": "Qwen2.5-VL (Screen)",
+        "qwen-2.5-vl-noscreen": "Qwen2.5-VL (Axtree)",
+        "llama-3.3-70b-noscreen": "Llama 3.3",
+    }
+
+    renames_labels = {
+        "trajectory_success": "Success",
+        "trajectory_side_effect": "Side Effect",
+        "trajectory_optimality": "Optimality",
+        "trajectory_looping": "Repetition",
+    }
+
+    return {
+        "agents": renames_agents,
+        "benchmarks": renames_benchmarks,
+        "judges": renames_judges,
+        "labels": renames_labels,
+    }
+
+def get_judges():
+    return [
+        "functional",
+        "aer",
+        "aerv",
+        "nnetnav",
+        "claude-3.7-sonnet-noscreen",
+        "claude-3.7-sonnet-noaxtree",
+        "gpt-4o-mini",
+        "gpt-4o-mini-noaxtree",
+        "gpt-4o-mini-noscreen",
+        "gpt-4o-mini-noscreen-noaxtree",
+        "gpt-4o-noaxtree",
+        "gpt-4o-noscreen",
+        "qwen-2.5-vl-noaxtree",
+        "qwen-2.5-vl-noscreen",
+        "llama-3.3-70b-noscreen",
+    ]
+
+

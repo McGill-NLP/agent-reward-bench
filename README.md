@@ -140,6 +140,18 @@ python scripts/clean_processed_trajectories.py
 ```
 This will save the cleaned trajectories to `trajectories/cleaned` (make sure to set the `--base_save_dir` argument to the correct path).
 
+## Contributing
+
+If you are publishing a new version of this library, run:
+
+```
+rm -r dist
+python3 setup.py sdist bdist_wheel
+twine upload dist/*
+```
+
+Request the api token from the repo owner.
+
 ## Acknowledgements
 
 * webarena.csv and visualwebarena.csv were created for the browsergym/agentlab ecosystem paper: https://github.com/ServiceNow/BrowserGym/tree/main/browsergym/experiments/src/browsergym/experiments/benchmark/metadata

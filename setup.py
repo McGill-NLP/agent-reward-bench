@@ -1,6 +1,7 @@
 from setuptools import setup, find_packages
 
 package_name = "agent_reward_bench"
+package_slug = package_name.replace("_", "-")
 
 version = {}
 with open(f"{package_name}/version.py") as fp:
@@ -17,15 +18,16 @@ extras_require = {
 extras_require["all"] = sum(extras_require.values(), [])
 
 setup(
-    name=package_name,
+    name=package_slug,
     version=version["__version__"],
     author="McGill NLP",
-    author_email=f"{package_name}@googlegroups.com",
-    url=f"https://github.com/McGill-NLP/{package_name}",
-    description=f"The official {package_name} library",
+    author_email=f"{package_slug}@googlegroups.com",
+    url=f"https://github.com/McGill-NLP/{package_slug}",
+    description=f"Official library for AgentRewardBench: Evaluating Automatic Evaluations of Web Agent Trajectories",
     long_description=long_description,
     packages=find_packages(include=[f"{package_name}*"]),
-    package_data={f"{package_name}.data": ["data/*.json", "data/*.csv"]},
+    include_package_data=True,
+    package_data={f"{package_name}": ["data/*.json", "data/*.csv"]},
     install_requires=[
         "browsergym",
         "numpy",
