@@ -191,7 +191,7 @@ Request the api token from the repo owner.
 
 ## Acknowledgements
 
-* webarena.csv and visualwebarena.csv were created for the browsergym/agentlab ecosystem paper: https://github.com/ServiceNow/BrowserGym/tree/main/browsergym/experiments/src/browsergym/experiments/benchmark/metadata
+`webarena.csv` and `visualwebarena.csv` that we store in this paper are retrieved from the [codebase of the browsergym/agentlab ecosystem paper](https://github.com/ServiceNow/BrowserGym/tree/main/browsergym/experiments/src/browsergym/experiments/benchmark/metadata).
 
 ## Citation
 
