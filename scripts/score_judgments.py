@@ -365,12 +365,6 @@ parser.add_argument(
     help="The split to analyze",
 )
 parser.add_argument(
-    "--annotation_base_dir",
-    type=str,
-    default="annotations/",
-    help="The base directory where the annotations are stored",
-)
-parser.add_argument(
     "--judgments_base_dir",
     type=str,
     default="trajectories/judgments/",
@@ -386,7 +380,6 @@ parser.add_argument(
 args = parser.parse_args()
 split = args.split
 
-annotation_base_dir = args.annotation_base_dir
 judgments_base_dir = args.judgments_base_dir
 results_save_dir = args.results_save_dir
 

@@ -1,4 +1,21 @@
+<div align="center">
+
 # AgentRewardBench
+
+| [**🤗Dataset**](https://huggingface.co/datasets/McGill-NLP/agent-reward-bench) | **📄Paper (TBA)** | [**🌐Website**](https://agent-reward-bench.github.io) | [**🏆Leaderboard**](https://huggingface.co/spaces/McGill-NLP/agent-reward-bench-leaderboard) |
+| :--: | :--: | :--: | :--: |
+
+<br>
+
+**[AgentRewardBench: Evaluating Automatic Evaluations of Web Agent Trajectories](#)**  
+*[Xing Han Lù](https://xinghanlu.com/), [Amirhossein Kazemnejad*](https://kazemnejad.com/), <br>[Nicholas Meade](https://ncmeade.github.io/), [Arkil Patel](https://arkilpatel.github.io/), [Dongchan Shin](https://scholar.google.com/citations?user=QzZOkfIAAAAJ&hl=en), [Alejandra Zambrano](https://www.linkedin.com/in/alejandra-zambrano-a71092196/), <br>[Karolina Stańczak](https://kstanczak.github.io/), [Peter Shaw](https://www.ptshaw.com/), [Christopher J. Pal](https://sites.google.com/view/christopher-pal), [Siva Reddy](https://sivareddy.in/)*  
+*\*Core Contributor*
+
+</div>
+
+
+![Image showing an example](assets/primary.png)
+
 
 ## Using the `agent-reward-bench` library
 
@@ -27,7 +44,8 @@ from agent_reward_bench.judge.args import default_judge_args, judge_args
 
 See `scripts/run_agent.py` and `scripts/run_judge.py` for examples of how to use the library to run an agent in an environment.
 
-## Judgments
+
+## Running Judge
 
 First, make sure that the cleaned trajectories are in `trajectories/cleaned`. You can do this by downloading the official ones from Huggingface Hub and place them in the `trajectories/` folder, or see instructions below on how to generate them.
 
@@ -38,7 +56,26 @@ python scripts/run_judge.py
 
 This will generate the output of the judge and save them to `trajectories/judgments` by default, which can be changed with the `--base_save_dir` argument.
 
+## Evaluation
+
+To evaluate a judge, run the following command:
+
+```bash
+python scripts/score_judgments.py --split test --judgments_base_dir "trajectories/judgments/" --results_save_dir "artifacts/"
+```
+
+if you need help:
+
+```bash
+python scripts/score_judgments.py --help
+```
+
+This will generate the evaluation results and save them to `artifacts/` by default, which can be changed with the `--results_save_dir` argument.
+You can also use the `--split` argument to specify which split to evaluate (dev or test). The default is test.
+
 ## Generating trajectories
+
+If you are using the trajectories from Huggingface Hub, you can skip this step. However, if you want to generate your own trajectories, you can following the instructions below. Note you will also need to create your own annotations and save them in the same format as `agent_reward_bench/data/annotations.csv`.
 
 ### Setup
 
@@ -155,3 +192,19 @@ Request the api token from the repo owner.
 ## Acknowledgements
 
 * webarena.csv and visualwebarena.csv were created for the browsergym/agentlab ecosystem paper: https://github.com/ServiceNow/BrowserGym/tree/main/browsergym/experiments/src/browsergym/experiments/benchmark/metadata
+
+## Citation
+
+If you use AgentRewardBench in your research, please cite the following paper:
+
+```bibtex
+@misc{lu_2025_agentrewardbench,
+    title={AgentRewardBench: Evaluating Automatic Evaluations of Web Agent Trajectories}, 
+    author={Lù, Xing Han and Kazemnejad, Amirhossein and Meade, Nicholas and Patel, Arkil and Shin, Dongchan and Zambrano, Alejandra and Stańczak, Karolina and Shaw, Peter and Pal, Christopher J. and Reddy, Siva},
+    year={2025},
+    eprint={2504.XXXXX},
+    archivePrefix={arXiv},
+    primaryClass={cs.LG},
+    url={https://arxiv.org/abs/2504.XXXXX},
+}
+```
