@@ -44,6 +44,60 @@ from agent_reward_bench.judge.args import default_judge_args, judge_args
 
 See `scripts/run_agent.py` and `scripts/run_judge.py` for examples of how to use the library to run an agent in an environment.
 
+## Loading dataset
+
+You can use the `huggingface_hub` library to load the dataset. The dataset is available on Huggingface Hub at `McGill-NLP/agent-reward-bench`.
+
+```python
+from huggingface_hub import snapshot_download
+
+# Download the dataset to ./trajectories/
+snapshot_download(
+    repo_id="McGill-NLP/agent-reward-bench",
+    repo_type="dataset",
+    local_dir="./trajectories/"
+)
+```
+
+<details>
+<summary>Click to see the folder structure</summary>
+
+```
+trajectories/
+├── cleaned/
+│   ├── assistantbench/
+│   │   ├── GenericAgent-<LLM>/
+│   │   │   ├── GenericAgent-<LLM>_on_<benchmark>.<split>/
+│   │   │   |   ├── <benchmark>.<split>.0.json
+│   │   │   |   ├── ...
+│   │   │   ├── ...
+|   |   ├── ...
+│   ├── visualwebarena/
+│   │   ├── ...
+│   ├── webarena/
+│   │   ├── ...
+│   ├── workarena/
+│   │   ├── ...
+├── judgments/
+│   ├── <benchmark>/
+│   │   ├── GenericAgent-<LLM>/
+│   │   │   ├── <judge>/
+│   │   │   |   ├── <benchmark>.<split>.0.json
+│   │   │   |   ├── ...
+│   ├── ...
+├── screenshots/
+│   ├── <benchmark>/
+│   │   ├── GenericAgent-<LLM>/
+│   │   │   ├── <benchmark>.<split>.0/
+│   │   │   |   ├── screenshot_step_0.png
+│   │   │   |   ├── ...
+│   │   │   ├── ...
+│   │   ├── ...
+│   ├── visualwebarena/
+│   │   ├── ...
+│   ├── ...
+```
+</details>
 
 ## Running Judge
 
