@@ -5,7 +5,7 @@ a trajectories/cleaned directory.
 
 """
 import os
-import json
+import orjson
 import shutil
 from tqdm import tqdm
 from pathlib import Path
@@ -20,8 +20,8 @@ def copy_screenshots(json_path, screenshot_path):
     json_file_stem = str(Path(json_path).stem)
     
     # load the json file
-    with open(json_path, 'r') as f:
-        data = json.load(f)
+    with open(json_path, 'rb') as f:
+        data = orjson.loads(f.read())
     
     # Get the benchmark, agent, and judge from the json file
     benchmark = data['benchmark']
@@ -35,11 +35,13 @@ def copy_screenshots(json_path, screenshot_path):
         new_screenshot_path = os.path.join('trajectories', 'screenshots', benchmark, agent, json_file_stem, screenshot_fname)
         # Create the directory if it doesn't exist
         os.makedirs(os.path.dirname(new_screenshot_path), exist_ok=True)
-        # Copy the screenshot to the new location
-        try:
-            shutil.copy2(screenshot_path, new_screenshot_path)
-        except:
-            breakpoint()
+        # Copy the screenshot to the new location, only if it doesn't exist
+        if not os.path.exists(new_screenshot_path):    
+            try:
+                shutil.copy2(screenshot_path, new_screenshot_path)
+            except:
+                breakpoint()
+        
         # Update the json file to point to the new location
         step['screenshot_path'] = new_screenshot_path
     # Save the json file to the cleaned directory
@@ -52,8 +54,8 @@ def copy_screenshots(json_path, screenshot_path):
             
     cleaned_json_path = str(json_path).replace('processed', 'cleaned')
     os.makedirs(os.path.dirname(cleaned_json_path), exist_ok=True)
-    with open(cleaned_json_path, 'w') as f:
-        json.dump(data, f)
+    with open(cleaned_json_path, 'wb') as f:
+        f.write(orjson.dumps(data))
 
 def main():
     # Get the list of json files in the trajectories/processed directory
