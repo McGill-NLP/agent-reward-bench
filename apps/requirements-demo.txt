@@ -1,0 +1,4 @@
+tqdm
+orjson
+Pillow
+pyparsing
