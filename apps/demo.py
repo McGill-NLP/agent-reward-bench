@@ -36,12 +36,9 @@ agents_dict = {
 
 judges_dict = {
     "aer": "AER-C",
-    "aerv": "AER-V",
     "nnetnav": "NNetNav",
     "claude-3.7-sonnet-noaxtree": "Claude 3.7 Sonnet (Screen)",
     "claude-3.7-sonnet-noscreen": "Claude 3.7 Sonnet (Axtree)",
-    "gpt-4o-mini-noaxtree": "GPT-4o Mini (Screen)",
-    "gpt-4o-mini-noscreen": "GPT-4o Mini (Axtree)",
     "gpt-4o-noaxtree": "GPT-4o (Screen)",
     "gpt-4o-noscreen": "GPT-4o (Axtree)",
     "qwen-2.5-vl-noaxtree": "Qwen 2.5 VL (Screen)",
