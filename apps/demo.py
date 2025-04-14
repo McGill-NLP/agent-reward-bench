@@ -404,7 +404,7 @@ def list_benchmarks(base_traj_dir):
     # filter by the benchmarks that are in the base_traj_dir
     benchmarks = []
     for benchmark in benchmarks_all:
-        traj_dir = Path(base_traj_dir, benchmark)
+        traj_dir = Path(base_traj_dir, benchmarks_inverse[benchmark])
         traj_dir = traj_dir.resolve()
         if traj_dir.exists():
             benchmarks.append(benchmark)
