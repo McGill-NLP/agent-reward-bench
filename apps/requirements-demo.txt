@@ -1,3 +1,4 @@
 tqdm
 orjson
 Pillow
+pyparsing
