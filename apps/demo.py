@@ -485,6 +485,13 @@ base_screenshot_dir = Path(base_screenshot_dir)
 hl_action_parser = _build_highlevel_action_parser()
 
 with gr.Blocks(title="AgentRewardBench Demo") as demo, gr.Row():
+    gr.Markdown(
+        """
+        # AgentRewardBench Demo
+        | [**🤗Dataset**](https://huggingface.co/datasets/McGill-NLP/agent-reward-bench) | **📄Paper (TBA)** | [**🌐Website**](https://agent-reward-bench.github.io) | [**🏆Leaderboard**](https://huggingface.co/spaces/McGill-NLP/agent-reward-bench-leaderboard) | [**💻Demo**](https://huggingface.co/spaces/McGill-NLP/agent-reward-bench-demo)
+        | :--: | :--: | :--: | :--: | :--: |
+        """
+    )
     with gr.Column(scale=4):
         benchmark_default = "WebArena"
         benchmark_dd = gr.Dropdown(

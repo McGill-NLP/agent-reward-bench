@@ -13,19 +13,20 @@ def load_data():
     # return the dataframe
     return df
 
-with gr.Blocks() as app:
+with gr.Blocks() as demo:
     gr.Markdown(
         """
         # AgentRewardBench Leaderboard
+
+
+        | [**🤗Dataset**](https://huggingface.co/datasets/McGill-NLP/agent-reward-bench) | **📄Paper (TBA)** | [**🌐Website**](https://agent-reward-bench.github.io) | [**🏆Leaderboard**](https://huggingface.co/spaces/McGill-NLP/agent-reward-bench-leaderboard) | [**💻Demo**](https://huggingface.co/spaces/McGill-NLP/agent-reward-bench-demo)
+        | :--: | :--: | :--: | :--: | :--: |
+
         
         This is the leaderboard for the AgentRewardBench. The scores are based on the results of the agents on the benchmark. We report the *precision* score.
         """
     )
     df = load_data()
     table = gr.DataFrame(df, show_label=False)
-    
-# launch the app
 
-if __name__ == "__main__":
-    # launch the app    
-    app.launch()
+demo.queue(default_concurrency_limit=40).launch()
