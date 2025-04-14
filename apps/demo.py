@@ -399,8 +399,19 @@ def get_judgment_path(base_judgments_dir, benchmark, agent, judge, task_id):
     return judgment_path
 
 
-def list_benchmarks():
-    return list(benchmarks_dict.values())
+def list_benchmarks(base_traj_dir):
+    benchmarks_all = list(benchmarks_dict.values())
+    # filter by the benchmarks that are in the base_traj_dir
+    benchmarks = []
+    for benchmark in benchmarks_all:
+        traj_dir = Path(base_traj_dir, benchmark)
+        traj_dir = traj_dir.resolve()
+        if traj_dir.exists():
+            benchmarks.append(benchmark)
+    # sort the benchmarks
+    benchmarks.sort()
+    return benchmarks
+
 
 
 def list_agents(base_traj_dir, benchmark):
@@ -477,7 +488,7 @@ with gr.Blocks(title="AgentRewardBench Demo") as demo, gr.Row():
     with gr.Column(scale=4):
         benchmark_default = "WebArena"
         benchmark_dd = gr.Dropdown(
-            label="Benchmark", choices=list_benchmarks(), value=benchmark_default
+            label="Benchmark", choices=list_benchmarks(base_traj_dir), value=benchmark_default
         )
 
         agents = list_agents(base_traj_dir, benchmark_default)
