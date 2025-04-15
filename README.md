@@ -128,6 +128,10 @@ python scripts/score_judgments.py --help
 This will generate the evaluation results and save them to `artifacts/` by default, which can be changed with the `--results_save_dir` argument.
 You can also use the `--split` argument to specify which split to evaluate (dev or test). The default is test.
 
+### Submitting to leaderboard
+
+[Open an issue to submit your results to the leadeboard](https://github.com/McGill-NLP/agent-reward-bench/issues/new?template=add-results-to-leaderboard.yml). We will review your results and add them to the leaderboard.
+
 ## Generating trajectories
 
 If you are using the trajectories from Huggingface Hub, you can skip this step. However, if you want to generate your own trajectories, you can following the instructions below. Note you will also need to create your own annotations and save them in the same format as `agent_reward_bench/data/annotations.csv`.
