@@ -1,5 +1,5 @@
-name: Submit to leaderboard
-description:  |
+name: Submit to Leaderboard
+description: Form for submitting your judge to the leaderboard.
   
 title: "[Leaderboard Submission]"
 labels: ["leaderboard-submission"]
