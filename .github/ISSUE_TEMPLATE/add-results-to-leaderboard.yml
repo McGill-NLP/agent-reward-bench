@@ -47,45 +47,45 @@ body:
       required: true
     
   - type: input
-    id: AssistantBench
+    id: assistantbench
     attributes:
-      label: assistantbench
+      label: AssistantBench
       description: Report your precision score (numerical between 0 and 1) for AssistantBench.
       placeholder: "0.0"
     validations:
       required: true
   
   - type: input
-    id: VisualWebArena
+    id: visualwebarena
     attributes:
-      label: visualwebarena
+      label: VisualWebArena
       description: Report your precision score (numerical between 0 and 1) for VisualWebArena.
       placeholder: "0.0"
     validations:
       required: true
 
   - type: input
-    id: WebArena
+    id: webarena
     attributes:
-      label: webarena
+      label: WebArena
       description: Report your precision score (numerical between 0 and 1) for WebArena.
       placeholder: "0.0"
     validations:
       required: true
   
   - type: input
-    id: WorkArena
+    id: workarena
     attributes:
-      label: workarena
+      label: WorkArena
       description: Report your precision score (numerical between 0 and 1) for WorkArena.
       placeholder: "0.0"
     validations:
       required: true
   
   - type: input
-    id: WorkArena++
+    id: workarena_pp
     attributes:
-      label: workarena++
+      label: WorkArena++
       description: Report your precision score (numerical between 0 and 1) for WorkArena++.
       placeholder: "0.0"
     validations:
