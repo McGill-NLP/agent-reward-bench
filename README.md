@@ -253,13 +253,13 @@ Request the api token from the repo owner.
 If you use AgentRewardBench in your research, please cite the following paper:
 
 ```bibtex
-@misc{lu_2025_agentrewardbench,
-    title={AgentRewardBench: Evaluating Automatic Evaluations of Web Agent Trajectories}, 
-    author={Lù, Xing Han and Kazemnejad, Amirhossein and Meade, Nicholas and Patel, Arkil and Shin, Dongchan and Zambrano, Alejandra and Stańczak, Karolina and Shaw, Peter and Pal, Christopher J. and Reddy, Siva},
-    year={2025},
-    eprint={2504.XXXXX},
-    archivePrefix={arXiv},
-    primaryClass={cs.LG},
-    url={https://arxiv.org/abs/2504.XXXXX},
+@misc{lù2025agentrewardbenchevaluatingautomaticevaluations,
+      title={AgentRewardBench: Evaluating Automatic Evaluations of Web Agent Trajectories}, 
+      author={Xing Han Lù and Amirhossein Kazemnejad and Nicholas Meade and Arkil Patel and Dongchan Shin and Alejandra Zambrano and Karolina Stańczak and Peter Shaw and Christopher J. Pal and Siva Reddy},
+      year={2025},
+      eprint={2504.08942},
+      archivePrefix={arXiv},
+      primaryClass={cs.LG},
+      url={https://arxiv.org/abs/2504.08942}, 
 }
 ```
