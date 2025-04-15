@@ -2,7 +2,7 @@
 
 # AgentRewardBench
 
-| [**🤗Dataset**](https://huggingface.co/datasets/McGill-NLP/agent-reward-bench) | **📄Paper (TBA)** | [**🌐Website**](https://agent-reward-bench.github.io) | [**🏆Leaderboard**](https://huggingface.co/spaces/McGill-NLP/agent-reward-bench-leaderboard) | [**💻Demo**](https://huggingface.co/spaces/McGill-NLP/agent-reward-bench-demo)
+| [**🤗Dataset**](https://huggingface.co/datasets/McGill-NLP/agent-reward-bench) | [**📄Paper**](https://arxiv.org/abs/2504.08942) | [**🌐Website**](https://agent-reward-bench.github.io) | [**🏆Leaderboard**](https://huggingface.co/spaces/McGill-NLP/agent-reward-bench-leaderboard) | [**💻Demo**](https://huggingface.co/spaces/McGill-NLP/agent-reward-bench-demo)
 | :--: | :--: | :--: | :--: | :--: |
 
 <br>
