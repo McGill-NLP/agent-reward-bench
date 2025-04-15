@@ -24,6 +24,7 @@ with gr.Blocks() as demo:
 
         
         This is the leaderboard for the AgentRewardBench. The scores are based on the results of the agents on the benchmark. We report the *precision* score.
+        [Open an issue to submit your results to the leadeboard](https://github.com/McGill-NLP/agent-reward-bench/issues/new?template=add-results-to-leaderboard.yml). We will review your results and add them to the leaderboard.
         """
     )
     df = load_data()
