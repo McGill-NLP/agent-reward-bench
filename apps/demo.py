@@ -1,4 +1,6 @@
 import ast
+import csv
+from textwrap import dedent
 import pyparsing as pp
 from dataclasses import dataclass
 from typing import Any
@@ -474,105 +476,156 @@ def get_message_from_rule_based(judgment):
     
     return output
 
+def records_to_dict(records, key_order: list = ['benchmark', 'model_name', 'task_id']):
+    """
+    Convert a list of records to a nested dict, with key order
+    The depth of the dict is determined by the number of keys in key_order.
+    """
+    
+    result = {}
+
+    for record in records:
+        # get the keys in the order of key_order
+        keys = [record[key] for key in key_order]
+        # create a nested dict
+        d = result
+        for key in keys[:-1]:
+            if key not in d:
+                d[key] = {}
+            d = d[key]
+        # set the value
+        d[keys[-1]] = record
+    
+    return result
+
+def format_annotation(annotation):
+    annotation_str = dedent(f"""
+    Success: {annotation['trajectory_success']}
+    Side Effect: {annotation['trajectory_side_effect']}
+    Looping: {annotation['trajectory_looping']}
+    """)
+    return annotation_str.strip()
+
 
 base_traj_dir = "trajectories/cleaned"
 base_screenshot_dir = "trajectories/screenshots"
 base_judgments_dir = "trajectories/judgments"
+annotations_path = "./annotations.csv"
 
 base_traj_dir = Path(base_traj_dir)
 base_screenshot_dir = Path(base_screenshot_dir)
 
 hl_action_parser = _build_highlevel_action_parser()
 
-with gr.Blocks(title="AgentRewardBench Demo") as demo, gr.Row():
+# load annotations as records via csv
+with open(annotations_path, "r") as f:
+    annotations = list(csv.DictReader(f))
+annotations_dict = records_to_dict(annotations, key_order=['benchmark', 'model_name', 'task_id'])
+
+# convert the annotations to a dict, with key order 
+
+with gr.Blocks(title="AgentRewardBench Demo") as demo:
     gr.Markdown(
         """
-        # AgentRewardBench Demo
-        | [**🤗Dataset**](https://huggingface.co/datasets/McGill-NLP/agent-reward-bench) | **📄Paper (TBA)** | [**🌐Website**](https://agent-reward-bench.github.io) | [**🏆Leaderboard**](https://huggingface.co/spaces/McGill-NLP/agent-reward-bench-leaderboard) | [**💻Demo**](https://huggingface.co/spaces/McGill-NLP/agent-reward-bench-demo)
-        | :--: | :--: | :--: | :--: | :--: |
+        # AgentRewardBench Demo ([paper](https://arxiv.org/abs/2504.08942))
         """
     )
-    with gr.Column(scale=4):
-        benchmark_default = "WebArena"
-        benchmark_dd = gr.Dropdown(
-            label="Benchmark", choices=list_benchmarks(base_traj_dir), value=benchmark_default
-        )
+    with gr.Row():
+        with gr.Column(scale=4):
+            benchmark_default = "WebArena"
+            benchmark_dd = gr.Dropdown(
+                label="Benchmark", choices=list_benchmarks(base_traj_dir), value=benchmark_default
+            )
 
-        agents = list_agents(base_traj_dir, benchmark_default)
-        model_dd = gr.Dropdown(label="Agent", choices=agents, value=agents[0])
+            agents = list_agents(base_traj_dir, benchmark_default)
+            model_dd = gr.Dropdown(label="Agent", choices=agents, value=agents[0])
 
-        task_ids = list_task_ids(base_traj_dir, benchmark_default, agents[0])
-        task_id_dd = gr.Dropdown(label="Task ID", choices=task_ids, value=task_ids[0])
+            task_ids = list_task_ids(base_traj_dir, benchmark_default, agents[0])
+            task_id_dd = gr.Dropdown(label="Task ID", choices=task_ids, value=task_ids[0])
 
-    @benchmark_dd.change(inputs=[benchmark_dd], outputs=[model_dd])
-    def update_agents(benchmark):
-        agents = list_agents(base_traj_dir, benchmark)
-        return gr.Dropdown(label="Agent", choices=agents, value=agents[0])
+        @benchmark_dd.change(inputs=[benchmark_dd], outputs=[model_dd])
+        def update_agents(benchmark):
+            agents = list_agents(base_traj_dir, benchmark)
+            return gr.Dropdown(label="Agent", choices=agents, value=agents[0])
 
-    @model_dd.change(inputs=[benchmark_dd, model_dd], outputs=[task_id_dd])
-    def update_task_ids(benchmark, agent):
-        task_ids = list_task_ids(base_traj_dir, benchmark, agent)
+        @model_dd.change(inputs=[benchmark_dd, model_dd], outputs=[task_id_dd])
+        def update_task_ids(benchmark, agent):
+            task_ids = list_task_ids(base_traj_dir, benchmark, agent)
 
-        return gr.Dropdown(choices=task_ids, value=task_ids[0])
+            return gr.Dropdown(choices=task_ids, value=task_ids[0])
 
-    with gr.Column(scale=8):
-        @gr.render(inputs=[benchmark_dd, model_dd, task_id_dd])
-        def render_trajectory(benchmark, agent, task_id):
-            traj_path = get_trajectory_path(base_traj_dir, benchmark, agent, task_id)
-            with open(traj_path, "rb") as f:
-                traj = orjson.loads(f.read())
+        with gr.Column(scale=8):
+            @gr.render(inputs=[benchmark_dd, model_dd, task_id_dd])
+            def render_trajectory(benchmark, agent, task_id):
+                traj_path = get_trajectory_path(base_traj_dir, benchmark, agent, task_id)
+                with open(traj_path, "rb") as f:
+                    traj = orjson.loads(f.read())
 
-            goal = replace_string_content(traj["goal"])
+                goal = replace_string_content(traj["goal"])
 
-            gr.Textbox(label="Goal", value=goal, visible=True)
+                gr.Textbox(label="Goal", value=goal, visible=True)
 
-            for step in traj["steps"]:
-                num = step["num"]
-                action = step["action"]
-                reasoning = step["reasoning"]
-                screenshot_path = step["screenshot_path"]
+                for step in traj["steps"]:
+                    num = step["num"]
+                    action = step["action"]
+                    reasoning = step["reasoning"]
+                    screenshot_path = step["screenshot_path"]
 
-                gr.Markdown(f"# Step {num}")
-                with gr.Group():
-                    im = Image.open(screenshot_path)
-                    im = apply_overlay_to_image(
-                        im, step, highlevel_action_parser=hl_action_parser
+                    gr.Markdown(f"# Step {num}")
+                    with gr.Group():
+                        im = Image.open(screenshot_path)
+                        im = apply_overlay_to_image(
+                            im, step, highlevel_action_parser=hl_action_parser
+                        )
+                        format_ = "webp" if im.format is None else im.format
+                        gr.Image(im, label="Screenshot", format=format_)
+                        if reasoning is not None:
+                            gr.Textbox(reasoning, label="Reasoning", lines=4)
+                        if action is not None:
+                            gr.Textbox(action, label="Action", lines=2)
+
+            # multi-choices dropdown for judges
+            judge_dd = gr.Dropdown(
+                label="Judges",
+                choices=list(judges_dict.values()),
+                multiselect=True,
+                value=default_judges,
+            )
+
+            # get annotation for the task from annotations_dict
+            @gr.render(inputs=[benchmark_dd, model_dd, task_id_dd])
+            def render_annotation(benchmark, agent, task_id):
+                bench_full = benchmarks_inverse[benchmark]
+                agent_full = agents_inverse[agent]
+                task_full = tasks_dict[bench_full]
+                task_id_full = f"{task_full}.{task_id}"
+                # get the annotation
+                annotation = annotations_dict[bench_full][agent_full][task_id_full]
+                annotation_str = format_annotation(annotation)
+
+                gr.Textbox(label="Expert Annotation", value=annotation_str, lines=3)
+                
+
+            @gr.render(inputs=[benchmark_dd, model_dd, task_id_dd, judge_dd])
+            def render_judge(benchmark, agent, task_id, judge_choices):                
+                # load judgments
+                for judge in judges_dict.values():
+                    if judge not in judge_choices:
+                        continue
+
+                    judgment_path = get_judgment_path(
+                        base_judgments_dir, benchmark, agent, judge, task_id
                     )
-                    format_ = "webp" if im.format is None else im.format
-                    gr.Image(im, label="Screenshot", format=format_)
-                    if reasoning is not None:
-                        gr.Textbox(reasoning, label="Reasoning", lines=4)
-                    if action is not None:
-                        gr.Textbox(action, label="Action", lines=2)
+                    if not judgment_path.exists():
+                        continue
 
-        # multi-choices dropdown for judges
-        judge_dd = gr.Dropdown(
-            label="Judges",
-            choices=list(judges_dict.values()),
-            multiselect=True,
-            value=default_judges,
-        )
+                    with open(judgment_path, "rb") as f:
+                        judgment = orjson.loads(f.read())
+                    if judge == "Rule-based":
+                        msg = get_message_from_rule_based(judgment)
+                    else:
+                        msg = get_message_from_judgment(judgment)
 
-        @gr.render(inputs=[benchmark_dd, model_dd, task_id_dd, judge_dd])
-        def render_judge(benchmark, agent, task_id, judge_choices):                
-            # load judgments
-            for judge in judges_dict.values():
-                if judge not in judge_choices:
-                    continue
-
-                judgment_path = get_judgment_path(
-                    base_judgments_dir, benchmark, agent, judge, task_id
-                )
-                if not judgment_path.exists():
-                    continue
-
-                with open(judgment_path, "rb") as f:
-                    judgment = orjson.loads(f.read())
-                if judge == "Rule-based":
-                    msg = get_message_from_rule_based(judgment)
-                else:
-                    msg = get_message_from_judgment(judgment)
-
-                gr.Textbox(label=judge, value=msg, lines=4)
+                    gr.Textbox(label=judge, value=msg, lines=4)
 
 demo.launch()
