@@ -1,21 +1,13 @@
-name: Add publications by author ID ✔️
+name: Submit to leaderboard
 description:  |
-  Paste the Semantic Scholar ID of an author to add all their publications within a time frame.
-title: "[Add publications by an author]"
-labels: ["automatic-add-publications-by-author"]
-assignees:
-  - octocat
+  
+title: "[Leaderboard Submission]"
+labels: ["leaderboard-submission"]
 body:
   - type: markdown
     attributes:
       value: |
-        This will add all publications by the author within the specified time frame using the Semantic Scholar API. To do this, a Semantic Scholar author ID is needed, which can be found by searching for the author in Semantic Scholar.
-        
-        Notes: 
-          - Since the API can only find the year of a publication, the month and day will be automatically set to January 1st.
-          - If you wish to be correctly attributed as the author, please add your Semantic Scholar ID to your member profile. To do this, fill the [issue form to update your member profile](/issues/new/choose).
-
-        This form will automatically generate a PR that will be reviewed by the maintainers.
+        You can submit your results to the leaderboard by filling out the form below. Please make sure to provide accurate and complete information. Your submission will be reviewed before being added to the [leaderboard](https://huggingface.co/spaces/McGill-NLP/agent-reward-bench-leaderboard).
 # AB,VWA,WA,Work,Work++
   - type: input
     id: judge_name
