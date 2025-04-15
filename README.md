@@ -8,7 +8,7 @@
 
 <br>
 
-**[AgentRewardBench: Evaluating Automatic Evaluations of Web Agent Trajectories](#)**  
+**[AgentRewardBench: Evaluating Automatic Evaluations of Web Agent Trajectories](https://arxiv.org/abs/2504.08942)**  
 *[Xing Han Lù](https://xinghanlu.com/), [Amirhossein Kazemnejad*](https://kazemnejad.com/), <br>[Nicholas Meade](https://ncmeade.github.io/), [Arkil Patel](https://arkilpatel.github.io/), [Dongchan Shin](https://scholar.google.com/citations?user=QzZOkfIAAAAJ&hl=en), [Alejandra Zambrano](https://www.linkedin.com/in/alejandra-zambrano-a71092196/), <br>[Karolina Stańczak](https://kstanczak.github.io/), [Peter Shaw](https://www.ptshaw.com/), [Christopher J. Pal](https://sites.google.com/view/christopher-pal), [Siva Reddy](https://sivareddy.in/)*  
 *\*Core Contributor*
 
