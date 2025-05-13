@@ -30,14 +30,32 @@ body:
       description: Enter the link to the paper or the GitHub repository of the judge model. This is what will be displayed on the leaderboard.
   
   - type: input
-    id: overall
+    id: precision
     attributes:
-      label: Overall
+      label: Precision
       description: Report your overall precision score (numerical between 0 and 1).
       placeholder: "0.0"
     validations:
       required: true
-    
+
+  - type: input
+    id: recall
+    attributes:
+      label: Overall
+      description: Report your overall recall score (numerical between 0 and 1).
+      placeholder: "0.0"
+    validations:
+      required: true
+
+  - type: input
+    id: f1
+    attributes:
+      label: F1
+      description: Report your overall F1 score (numerical between 0 and 1).
+      placeholder: "0.0"
+    validations:
+      required: true
+
   - type: input
     id: assistantbench
     attributes:
