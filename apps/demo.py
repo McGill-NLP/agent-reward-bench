@@ -1,3 +1,4 @@
+import argparse
 import ast
 import csv
 from textwrap import dedent
@@ -63,6 +64,9 @@ agents_inverse = {v: k for k, v in agents_dict.items()}
 tasks_inverse = {v: k for k, v in tasks_dict.items()}
 judges_inverse = {v: k for k, v in judges_dict.items()}
 
+parser = argparse.ArgumentParser()
+parser.add_argument("--port", type=int, default=9876)
+args = parser.parse_args()
 
 @dataclass
 class NamedArgument:
@@ -510,7 +514,7 @@ def format_annotation(annotation):
 base_traj_dir = "trajectories/cleaned"
 base_screenshot_dir = "trajectories/screenshots"
 base_judgments_dir = "trajectories/judgments"
-annotations_path = "./annotations.csv"
+annotations_path = "./apps/annotations.csv"
 
 base_traj_dir = Path(base_traj_dir)
 base_screenshot_dir = Path(base_screenshot_dir)
@@ -563,7 +567,7 @@ with gr.Blocks(title="AgentRewardBench Demo") as demo:
 
                 goal = replace_string_content(traj["goal"])
 
-                gr.Textbox(label="Goal", value=goal, visible=True)
+                gr.TextArea(label="Goal", value=goal, visible=True, lines=4)
 
                 for step in traj["steps"]:
                     num = step["num"]
@@ -628,4 +632,4 @@ with gr.Blocks(title="AgentRewardBench Demo") as demo:
 
                     gr.Textbox(label=judge, value=msg, lines=4)
 
-demo.launch()
+demo.launch(server_port=args.port)
