@@ -26,8 +26,15 @@ body:
   - type: input
     id: link
     attributes:
-      label: Link
-      description: Enter the link to the paper or the GitHub repository of the judge model. This is what will be displayed on the leaderboard.
+      label: Project URL
+      description: Enter the URL to the arxiv paper or the GitHub repository of the judge model. This is what will be displayed on the leaderboard. Only include one link.
+
+  - type: input
+    id: results
+    attributes:
+      label: Results URL
+      description: Enter the URL to the results in JSON format. For an example, see [this example](https://huggingface.co/datasets/Zery/WSM-7B-AgentRewardBench/raw/main/results.json).
+
   
   - type: input
     id: precision
@@ -41,7 +48,7 @@ body:
   - type: input
     id: recall
     attributes:
-      label: Overall
+      label: Recall
       description: Report your overall recall score (numerical between 0 and 1).
       placeholder: "0.0"
     validations:
@@ -100,3 +107,4 @@ body:
       placeholder: "0.0"
     validations:
       required: true
+
