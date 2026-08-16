@@ -1,0 +1,66 @@
+cff-version: 1.2.0
+message: "If you use this software, please cite the paper below."
+title: "agent-reward-bench"
+abstract: "Official library for AgentRewardBench: Evaluating Automatic Evaluations of Web Agent Trajectories."
+authors:
+  - family-names: "Lù"
+    given-names: "Xing Han"
+  - family-names: "Kazemnejad"
+    given-names: "Amirhossein"
+  - family-names: "Meade"
+    given-names: "Nicholas"
+  - family-names: "Patel"
+    given-names: "Arkil"
+  - family-names: "Shin"
+    given-names: "Dongchan"
+  - family-names: "Zambrano"
+    given-names: "Alejandra"
+  - family-names: "Stańczak"
+    given-names: "Karolina"
+  - family-names: "Shaw"
+    given-names: "Peter"
+  - family-names: "Pal"
+    given-names: "Christopher J."
+  - family-names: "Reddy"
+    given-names: "Siva"
+version: "0.1.2"
+date-released: "2025-07-11"
+repository-code: "https://github.com/McGill-NLP/agent-reward-bench"
+url: "https://agent-reward-bench.github.io"
+keywords:
+  - web-agents
+  - agent-evaluation
+  - reward-models
+  - llm-judge
+  - benchmark
+preferred-citation:
+  type: article
+  title: "AgentRewardBench: Evaluating Automatic Evaluations of Web Agent Trajectories"
+  authors:
+    - family-names: "Lù"
+      given-names: "Xing Han"
+    - family-names: "Kazemnejad"
+      given-names: "Amirhossein"
+    - family-names: "Meade"
+      given-names: "Nicholas"
+    - family-names: "Patel"
+      given-names: "Arkil"
+    - family-names: "Shin"
+      given-names: "Dongchan"
+    - family-names: "Zambrano"
+      given-names: "Alejandra"
+    - family-names: "Stańczak"
+      given-names: "Karolina"
+    - family-names: "Shaw"
+      given-names: "Peter"
+    - family-names: "Pal"
+      given-names: "Christopher J."
+    - family-names: "Reddy"
+      given-names: "Siva"
+  year: 2025
+  journal: "arXiv preprint arXiv:2504.08942"
+  url: "https://arxiv.org/abs/2504.08942"
+  identifiers:
+    - type: other
+      value: "arXiv:2504.08942"
+      description: "The arXiv preprint of the paper"
